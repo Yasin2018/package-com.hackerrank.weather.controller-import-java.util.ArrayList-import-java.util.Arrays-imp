@@ -1,0 +1,66 @@
+package com.hackerrank.weather.controller;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.List;
+import java.util.Optional;
+
+import javax.annotation.Resource;
+import javax.persistence.EntityNotFoundException;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.hackerrank.weather.model.Weather;
+import com.hackerrank.weather.repository.WeatherRepository;
+
+
+
+
+@Service
+public class WeatherService {
+	
+
+	@Autowired
+	WeatherRepository weatherRepository;
+	public List<Weather> getWeathers() {
+        
+		if( weatherRepository.findAll().isEmpty()) {
+			throw new EntityNotFoundException("Weather Not Found");
+			
+		}else {
+			return weatherRepository.findAll();
+		}
+
+	}
+
+	public Weather getWeather(int WeatherId) {
+
+		if(weatherRepository.findById(WeatherId).isPresent()){
+		return weatherRepository.findById(WeatherId).get();
+		}else{
+			throw new EntityNotFoundException("Weather Id " + WeatherId + " not found");
+		}
+
+	}
+
+	public void createWeather(Weather weather) {
+		
+		weatherRepository.save(weather);
+
+	}
+
+	public void updateWeather(Weather weather) {
+		
+		weatherRepository.save(weather);
+	}
+
+	public void deleteWeather(int weatherId) {
+
+		
+		weatherRepository.deleteById(weatherId);
+
+	}
+	
+}
